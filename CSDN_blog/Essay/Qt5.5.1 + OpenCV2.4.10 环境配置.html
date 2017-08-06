@@ -1,0 +1,152 @@
+<h1 id="qt551-opencv2410-环境配置">Qt5.5.1 + OpenCV2.4.10 环境配置</h1>
+
+<blockquote>
+  <p>by luoshi006 <br>
+  欢迎交流~ 个人 Gitter 交流平台，点击直达： <a href="https://gitter.im/luoshi006_communication/Lobby?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/luoshi006_communication/Lobby.svg" alt="Join the chat at https://gitter.im/luoshi006_communication/Lobby" title=""></a></p>
+</blockquote>
+
+<h2 id="配置环境">配置环境</h2>
+
+<ul>
+<li>PC：Windows 7 x64</li>
+<li>Qt：qt-opensource-windows-x86-msvc2013-5.5.1</li>
+<li>OpenCV：opencv-2.4.10</li>
+</ul>
+
+
+
+<h2 id="配置过程">配置过程</h2>
+
+<ol>
+<li><p><strong>下载并安装 Qt，并运行 opencv 自解压程序。</strong> <br>
+本文中 opencv 解压路径 <code>D:\</code></p></li>
+<li><p><strong>配置 opencv 环境变量：</strong> <br>
+在系统环境变量中（<strong>PATH</strong>），添加以下路径 <br>
+<code>D:\opencv\build\x86\vc12\bin; <br>
+D:\opencv\build\x86\vc12\lib;</code> <br>
+其中，<strong>vc12</strong> 表示 vs2013 ，添加路径时，请选择与编译器相对应的版本。 <br>
+若使用 mingw 等编译器，需要使用 cmake 编译 opencv 源码。</p></li>
+<li><p><strong>在 Qt 项目中，添加路径和库：</strong> <br>
+在Qt中，新建项目<code>[Application-&gt;Qt Console Application]</code>（验证环境用，所以选择简单的控制台程序。） <br>
+打开项目文件（.pro），在文件尾增加如下代码：</p></li>
+</ol>
+
+
+
+<pre class="prettyprint"><code class=" hljs haml"># INCLUDEPATH 指定用于搜索头文件的文件夹
+INCLUDEPATH += D:/opencv/build/include
+
+# LIBS 包含链接时的库文件列表。使用 -L 指定文件夹路径， -l 指定库的名称
+
+win32:CONFIG(debug, debug | release):{
+LIBS +=  -LD:/opencv/build/x86/vc12/lib \
+-<span class="ruby">lopencv_core2410d \
+</span>-<span class="ruby">lopencv_imgproc2410d \
+</span>-<span class="ruby">lopencv_highgui2410d \
+</span>-<span class="ruby">lopencv_ml2410d \
+</span>-<span class="ruby">lopencv_video2410d \
+</span>-<span class="ruby">lopencv_features2d2410d \
+</span>-<span class="ruby">lopencv_calib3d2410d \
+</span>-<span class="ruby">lopencv_objdetect2410d \
+</span>-<span class="ruby">lopencv_contrib2410d \
+</span>-<span class="ruby">lopencv_legacy2410d \
+</span>-<span class="ruby">lopencv_flann2410d \
+</span>-<span class="ruby">lopencv_ml2410d   \
+</span>-<span class="ruby">lopencv_calib3d2410d  \
+</span>-<span class="ruby">lopencv_gpu2410d  \
+</span>-<span class="ruby">lopencv_ts2410d   \
+</span>-<span class="ruby">lopencv_nonfree2410d  \
+</span>-<span class="ruby">lopencv_ocl2410d  \
+</span>-<span class="ruby">lopencv_photo2410d    \
+</span>-<span class="ruby">lopencv_stitching2410d    \
+</span>-<span class="ruby">lopencv_superres2410d     \
+</span>-<span class="ruby">lopencv_superres2410d
+</span>
+} else : win32:CONFIG(release, debug | release):{
+LIBS +=  -LD:/opencv/build/x86/vc12/lib \
+-<span class="ruby">lopencv_core241<span class="hljs-number">0</span> \
+</span>-<span class="ruby">lopencv_imgproc241<span class="hljs-number">0</span> \
+</span>-<span class="ruby">lopencv_highgui241<span class="hljs-number">0</span> \
+</span>-<span class="ruby">lopencv_ml241<span class="hljs-number">0</span> \
+</span>-<span class="ruby">lopencv_video241<span class="hljs-number">0</span> \
+</span>-<span class="ruby">lopencv_features2d241<span class="hljs-number">0</span> \
+</span>-<span class="ruby">lopencv_calib3d241<span class="hljs-number">0</span> \
+</span>-<span class="ruby">lopencv_objdetect241<span class="hljs-number">0</span> \
+</span>-<span class="ruby">lopencv_contrib241<span class="hljs-number">0</span> \
+</span>-<span class="ruby">lopencv_legacy241<span class="hljs-number">0</span> \
+</span>-<span class="ruby">lopencv_flann241<span class="hljs-number">0</span>  \
+</span>-<span class="ruby">lopencv_ml241<span class="hljs-number">0</span>   \
+</span>-<span class="ruby">lopencv_calib3d241<span class="hljs-number">0</span>  \
+</span>-<span class="ruby">lopencv_gpu241<span class="hljs-number">0</span>  \
+</span>-<span class="ruby">lopencv_ts241<span class="hljs-number">0</span>   \
+</span>-<span class="ruby">lopencv_nonfree241<span class="hljs-number">0</span>  \
+</span>-<span class="ruby">lopencv_ocl241<span class="hljs-number">0</span>  \
+</span>-<span class="ruby">lopencv_photo241<span class="hljs-number">0</span>    \
+</span>-<span class="ruby">lopencv_stitching241<span class="hljs-number">0</span>    \
+</span>-<span class="ruby">lopencv_superres241<span class="hljs-number">0</span>     \
+</span>-<span class="ruby">lopencv_superres241<span class="hljs-number">0</span>
+</span>}</code></pre>
+
+<p>老版本的 Qt 不会自动更新qmake，需要手动执行，<code>[构建-&gt;执行 qmake]</code> 。</p>
+
+<p>4.<strong>运行示例程序</strong> <br>
+    在源文件<code>[main.cpp]</code> 中输入一下代码：</p>
+
+
+
+<pre class="prettyprint"><code class="language-cpp hljs "><span class="hljs-preprocessor">#include &lt;QCoreApplication&gt;</span>
+<span class="hljs-preprocessor">#include &lt;iostream&gt;</span>
+<span class="hljs-preprocessor">#include &lt;QDebug&gt;</span>
+<span class="hljs-preprocessor">#include &lt;QString&gt;</span>
+
+<span class="hljs-preprocessor">#include &lt;opencv2/opencv.hpp&gt;</span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> cv;
+
+<span class="hljs-keyword">int</span> main(<span class="hljs-keyword">int</span> argc,<span class="hljs-keyword">char</span> * argv[])
+{
+    <span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">"opencv"</span>&lt;&lt;endl;
+    qDebug()&lt;&lt;<span class="hljs-string">"app start! "</span>&lt;&lt;endl;
+    Mat src;
+    QString path;
+
+    <span class="hljs-keyword">if</span>(argc &lt; <span class="hljs-number">2</span>)
+    {
+            path=<span class="hljs-string">"C:/lena.jpg"</span>;
+            qDebug()&lt;&lt;<span class="hljs-string">"argc = 1"</span>&lt;&lt;endl;
+    }
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(argc &gt; <span class="hljs-number">2</span>)
+    {
+        <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"only single picture can be supported~"</span>&lt;&lt;endl;
+        qDebug()&lt;&lt;<span class="hljs-string">"too many argument!"</span>&lt;&lt;endl;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    }
+    <span class="hljs-keyword">else</span>
+    {
+        path = argv[<span class="hljs-number">1</span>];
+    }
+
+    src = imread(path.toLatin1().data());
+    <span class="hljs-keyword">if</span>(!src.data)<span class="hljs-comment">//读取失败；</span>
+    {
+        <span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">"read failed!"</span>&lt;&lt;endl;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>;
+    }
+
+    namedWindow(<span class="hljs-string">"test_1"</span>);
+    imshow(<span class="hljs-string">"test_1"</span>,src);
+
+    waitKey(<span class="hljs-number">0</span>);
+    qDebug()&lt;&lt;<span class="hljs-string">"app exit!"</span>&lt;&lt;endl;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+
+<p>在 <code>C:\</code> 根目录下放入经典的 lena ，或拖拽图片到<code>.exe</code>程序上释放，测试程序。</p>
+
+
+
+<h2 id="附图">附图</h2>
+
+<p><img src="http://img.blog.csdn.net/20160705105754047" alt="这里写图片描述" title=""></p>
