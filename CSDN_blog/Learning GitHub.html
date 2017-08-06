@@ -1,0 +1,609 @@
+<h1 id="learning-github">Learning GitHub</h1>
+
+<p><strong>GitHub学习过程记录。。。。</strong> <br>
+<strong>请点击目录以查看全文大纲，该文章仅支持入门使用，高级操作请自行Google~</strong></p>
+
+<blockquote>
+  <p>by luoshi006 <br>
+  欢迎交流~ 个人 Gitter 交流平台，点击直达： <a href="https://gitter.im/luoshi006_communication/Lobby?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/luoshi006_communication/Lobby.svg" alt="Join the chat at https://gitter.im/luoshi006_communication/Lobby" title=""></a></p>
+</blockquote>
+
+<h1 id="第一章-git历史">第一章 Git历史</h1>
+
+<p>Linus torvalds 在1991年时发布了 Linux <strong>开源</strong> 操作系统</p>
+
+<p>Linux 系统的 contributor 来自全球各个地方，最初通过邮件向 Linus 发送源代码，然后以手工的方式进行代码合并。</p>
+
+<p>直到。。。。</p>
+
+<p>Linux 2.4</p>
+
+<p>商业公司 BitMover 将其<strong>BitKeeper</strong>分布式版本控制系统授权给 Linux 开发社区来免费使用。</p>
+
+<p>又直到。。。。</p>
+
+<p>2005年时，那位曾经开发 Samba 服务程序的 Andrew 因为试图破解 BitKeeper 软件协议而激怒了 BitMover 公司， <br>
+ 当即决定不再向 Linux 社区提供免费的软件授权了</p>
+
+<p>于是 Linus 便用C语言花了2周创建了 Git 分布式版本控制系统，并上传了 Linux 系统的源代码。:):):):):):)</p>
+
+<hr>
+
+
+
+<h2 id="tips">Tips~</h2>
+
+<p></p><center> <br>
+<img src="http://img.blog.csdn.net/20160521203028530" alt="这里写图片描述" title=""> <br>
+Octocat（章鱼猫）＝ Octopus（章鱼）+ Cat（猫） <br>
+<strong><em>presumably under the notion that it can represent how complex code combines to create peculiar things, much like the octopuss…</em></strong>  <br>
+</center> <br>
+更多章鱼猫，请访问 <a href="https://octodex.github.com/">https://octodex.github.com/</a><p></p>
+
+
+
+<h1 id="第二章-横向对比">第二章 横向对比</h1>
+
+
+
+<h2 id="svnsubversion">SVN(Subversion)</h2>
+
+<p>开源版本控制系统，支持大部分常见的操作系统。 <br>
+</p><center> <br>
+<img src="http://img.blog.csdn.net/20160521200844371" width="240" height="160" alt="不"> <br>
+</center> <br>
+<strong>集中式</strong>代码管理的核心是<strong>服务器</strong>，所有开发者在开始新一天的工作之前必须从服务器获取代码，然后开发，最后解决冲突，提交。所有的版本信息都放在服务器上。如果脱离了服务器，开发者基本上可以说是无法工作的。<p></p>
+
+
+
+<h3 id="常见的svn工作方式是">常见的SVN工作方式是：</h3>
+
+<p>1、从服务器下载最新代码； <br>
+  2、进入自己的分支，coding，每隔一段时间提交一次代码。 <br>
+  3、下班之前，将自己的分支合并到服务器主分支上。</p>
+
+
+
+<h3 id="缺点">缺点：</h3>
+
+<p>对服务器压力大； <br>
+ 不适合开源开发【开源项目一般人数极多，需要进行分层管理】</p>
+
+
+
+<h2 id="git">Git</h2>
+
+<p></p><center> <br>
+<img src="http://img.blog.csdn.net/20160521204454521" width="240" height="200" alt="不"></center><p></p>
+
+<blockquote>
+  <p>图片来自廖雪峰的博客，特此说明！ <br>
+  </p>
+</blockquote>
+
+<p>分布式代码管理，具有及其强大的分支管理机制，将代码的版本库都保存在本地，能够实现分支间的快速切换，提交版本时不需要与服务器连接，在本地分支实现本地提交。</p>
+
+
+
+<h3 id="常见的git工作方式">常见的Git工作方式：</h3>
+
+<p></p><center> <br>
+<img src="http://img.blog.csdn.net/20160521205613856" width="400" height="240" alt="不"> <br>
+</center><p></p>
+
+<p>详情参见 <a href="http://danielkummer.github.io/git-flow-cheatsheet/index.zh_CN.html">git flow</a>。</p>
+
+
+
+<h1 id="第三章-简单操作">第三章 简单操作</h1>
+
+<p>本章介绍 git 本地操作的基本命令。</p>
+
+
+
+<h2 id="git-init"><strong>git init</strong></h2>
+
+<p>创建一个空的 Git 版本库或重新初始化一个已存在的版本库</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs ruby"><span class="hljs-variable">$ </span>git init
+<span class="hljs-constant">Reinitialized</span> existing <span class="hljs-constant">Git</span> repository <span class="hljs-keyword">in</span> <span class="hljs-constant">E</span><span class="hljs-symbol">:/works/git/Hello_world/</span>.git/
+</code></pre>
+
+
+
+<h2 id="git-clone"><strong>git clone</strong></h2>
+
+<p>将 <strong>repository</strong> 下载到本地文件夹中。</p>
+
+<p><img src="http://img.blog.csdn.net/20160521201159804" alt="这里写图片描述" title=""></p>
+
+
+
+<pre class="prettyprint"><code class=" hljs r">///所下载的项目地址由上图中的https处获取；
+$ git clone https://github.com/****/Hello_world.git
+Cloning into <span class="hljs-string">'Hello_world'</span><span class="hljs-keyword">...</span>
+remote: Counting objects: <span class="hljs-number">9</span>, done.
+remote: Total <span class="hljs-number">9</span> (delta <span class="hljs-number">0</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>), pack-reused <span class="hljs-number">9</span>
+Unpacking objects: <span class="hljs-number">100</span>% (<span class="hljs-number">9</span>/<span class="hljs-number">9</span>), done.
+Checking connectivity... done.
+</code></pre>
+
+
+
+<h2 id="git-pull"><strong>git pull</strong></h2>
+
+<p>获取更新，将服务器端的更新下载到本地。</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs avrasm">$ git pull
+<span class="hljs-label">remote:</span> Counting objects: <span class="hljs-number">3</span>, done.
+<span class="hljs-label">remote:</span> Total <span class="hljs-number">3</span> (delta <span class="hljs-number">0</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>), pack-reused <span class="hljs-number">3</span>
+Unpacking objects: <span class="hljs-number">100</span>% (<span class="hljs-number">3</span>/<span class="hljs-number">3</span>), done.
+From https://github<span class="hljs-preprocessor">.com</span><span class="hljs-comment">/****/</span>Hello_world
+   <span class="hljs-number">9</span>b8e8fb.<span class="hljs-number">.30</span>bdafc  master     -&gt; origin/master
+Updating <span class="hljs-number">9</span>b8e8fb.<span class="hljs-number">.30</span>bdafc
+Fast-forward
+ helloworld<span class="hljs-preprocessor">.c</span> | <span class="hljs-number">8</span> ++++++++
+ <span class="hljs-number">1</span> file changed, <span class="hljs-number">8</span> insertions(+)
+ create mode <span class="hljs-number">100644</span> helloworld<span class="hljs-preprocessor">.c</span></code></pre>
+
+
+
+<pre class="prettyprint"><code class=" hljs livecodeserver">$ git pull
+Already up-<span class="hljs-built_in">to</span>-<span class="hljs-built_in">date</span>.
+</code></pre>
+
+
+
+<h2 id="git-status"><strong>git status</strong></h2>
+
+<p>显示工作区状态</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs livecodeserver">$ git status
+On branch master
+Your branch is up-<span class="hljs-built_in">to</span>-<span class="hljs-built_in">date</span> <span class="hljs-operator">with</span> <span class="hljs-string">'origin/master'</span>.
+Untracked <span class="hljs-built_in">files</span>:
+  (use <span class="hljs-string">"git add &lt;file&gt;..."</span> <span class="hljs-built_in">to</span> <span class="hljs-built_in">include</span> <span class="hljs-operator">in</span> what will be committed)
+
+        Hello_world/
+        helloworld_2.c
+
+nothing added <span class="hljs-built_in">to</span> commit but untracked <span class="hljs-built_in">files</span> present (use <span class="hljs-string">"git add"</span> <span class="hljs-built_in">to</span> track)
+</code></pre>
+
+
+
+<h2 id="git-add"><strong>git add</strong></h2>
+
+<p>添加文件内容至索引</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs livecodeserver">$ git <span class="hljs-built_in">add</span> helloworld_2.c
+<span class="hljs-comment">
+//或者 使用 “.” 添加所有改动的文件。</span>
+$ git <span class="hljs-built_in">add</span> .</code></pre>
+
+
+
+<h2 id="git-commit"><strong>git commit</strong></h2>
+
+<p>将变更提交到 <strong>本地版本库</strong> （版本库内容见 第五章）</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs sql">$ git <span class="hljs-operator"><span class="hljs-keyword">commit</span> -m <span class="hljs-string">"for my gitbook"</span>
+[master aa19bec] <span class="hljs-keyword">for</span> my gitbook
+ <span class="hljs-number">1</span> file changed, <span class="hljs-number">8</span> insertions(+)
+ <span class="hljs-keyword">create</span> mode <span class="hljs-number">100644</span> helloworld_2.c
+</span></code></pre>
+
+
+
+<h2 id="git-push"><strong>git push</strong></h2>
+
+<p>将 <strong>本地版本库</strong> 的内容推送到服务器端。</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs livecodeserver">$ git push
+Counting objects: <span class="hljs-number">2</span>, done.
+Delta compression <span class="hljs-keyword">using</span> up <span class="hljs-built_in">to</span> <span class="hljs-number">4</span> threads.
+Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">2</span>/<span class="hljs-number">2</span>), done.
+Writing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">2</span>/<span class="hljs-number">2</span>), <span class="hljs-number">244</span> <span class="hljs-keyword">bytes</span> | <span class="hljs-number">0</span> <span class="hljs-keyword">bytes</span>/s, done.
+Total <span class="hljs-number">2</span> (delta <span class="hljs-number">1</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>)
+To <span class="hljs-keyword">https</span>://github.com<span class="hljs-comment">/****/</span>Hello_world.git
+   <span class="hljs-number">30</span>bdafc..aa19bec  master -&gt; master
+</code></pre>
+
+
+
+<h2 id="git-log"><strong>git log</strong></h2>
+
+<p>显示提交日志</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs perl">$ git <span class="hljs-keyword">log</span>
+commit aa19bec1a87eb5b15fdad2be49094d0fcf7ae1a4
+Author: <span class="hljs-variable">**</span><span class="hljs-variable">**</span> &lt;<span class="hljs-variable">**</span><span class="hljs-variable">**</span><span class="hljs-variable">@126</span>.com&gt;
+Date:   Sat Mar <span class="hljs-number">19</span> <span class="hljs-number">21</span>:<span class="hljs-number">42</span>:<span class="hljs-number">27</span> <span class="hljs-number">2016</span> +080<span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">for</span> <span class="hljs-keyword">my</span> gitbook
+</code></pre>
+
+
+
+<h2 id="git-reset"><strong>git reset</strong></h2>
+
+<p>重置当前 <strong>HEAD</strong> 到指定状态</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs applescript">$ git reset <span class="hljs-comment">--hard  aa19bec1a87eb5b15fdad2be49094d0fcf7ae1a4</span>
+HEAD <span class="hljs-keyword">is</span> now <span class="hljs-keyword">at</span> aa19bec <span class="hljs-keyword">for</span> <span class="hljs-keyword">my</span> gitbook
+</code></pre>
+
+<p>默认的HEAD版本指针会指向到最近的一次提交版本记录。</p>
+
+<table>
+<thead>
+<tr>
+  <th>指针</th>
+  <th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>HEAD^</td>
+  <td>上一个提交版本</td>
+</tr>
+<tr>
+  <td>HEAD^^</td>
+  <td>上上一个提交版本</td>
+</tr>
+<tr>
+  <td>HEAD~5</td>
+  <td>往上数第五个提交版本</td>
+</tr>
+</tbody></table>
+
+
+
+
+<h1 id="第四章-分支操作">第四章 分支操作</h1>
+
+<p>常见的分支操作模式： <br>
+</p><center> <br>
+<img src="http://img.blog.csdn.net/20160521202056233" width="270" height="360" alt="不">  <br>
+</center><p></p>
+
+<table>
+<thead>
+<tr>
+  <th>命令</th>
+  <th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>git branch</td>
+  <td>查看分支</td>
+</tr>
+<tr>
+  <td>git branch <em>name</em></td>
+  <td>创建分支</td>
+</tr>
+<tr>
+  <td>git checkout <em>name</em></td>
+  <td>切换分支</td>
+</tr>
+<tr>
+  <td>git checkout -b <em>name</em></td>
+  <td>创建并切换分支</td>
+</tr>
+<tr>
+  <td>git merge <em>name</em></td>
+  <td>合并<em>name</em>分支到当前分支</td>
+</tr>
+<tr>
+  <td>git branch -d <em>name</em></td>
+  <td>删除分支</td>
+</tr>
+</tbody></table>
+
+
+<hr>
+
+
+
+<h2 id="git-checkout-b-newbranch">git checkout -b new_branch</h2>
+
+<p>表示 <strong>创建</strong> 并 <strong>切换</strong> 到new_branch分支；</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs smalltalk">//相当于以下两条命令；
+<span class="hljs-char">$ </span>git branch new_branch
+<span class="hljs-char">$ </span>git checkout new_branch</code></pre>
+
+
+
+<pre class="prettyprint"><code class=" hljs livecodeserver">$ git checkout -b new_branch
+Switched <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> branch <span class="hljs-string">'new_branch'</span></code></pre>
+
+
+
+<h2 id="git-branch">git branch</h2>
+
+<p>查看当前分支：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs cs">$ git branch
+  master
+* new_branch
+<span class="hljs-comment">//星号表示当前所在分支；</span></code></pre>
+
+<p>在新分支新建文档，并提交：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs ruby">luoshi006<span class="hljs-variable">@luoshi006</span>-<span class="hljs-constant">PC</span> <span class="hljs-constant">MINGW64</span> /e/works/git/<span class="hljs-constant">Hello_world</span> (new_branch)
+<span class="hljs-variable">$ </span>vi newbranch_file
+
+luoshi006<span class="hljs-variable">@luoshi006</span>-<span class="hljs-constant">PC</span> <span class="hljs-constant">MINGW64</span> /e/works/git/<span class="hljs-constant">Hello_world</span> (new_branch)
+<span class="hljs-variable">$ </span>git add newbranch_file
+
+luoshi006<span class="hljs-variable">@luoshi006</span>-<span class="hljs-constant">PC</span> <span class="hljs-constant">MINGW64</span> /e/works/git/<span class="hljs-constant">Hello_world</span> (new_branch)
+<span class="hljs-variable">$ </span>git commit
+[new_branch <span class="hljs-number">3</span>a34441] commit <span class="hljs-keyword">for</span> the new branch
+ <span class="hljs-number">1</span> file changed, <span class="hljs-number">1</span> insertion(+)
+ create mode <span class="hljs-number">100644</span> newbranch_file
+</code></pre>
+
+
+
+<h2 id="git-checkout-name">git checkout <em>name</em></h2>
+
+<p>切换到 <em>name</em> 分支</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs vbnet">$ git checkout master
+Switched <span class="hljs-keyword">to</span> branch <span class="hljs-comment">'master'</span>
+Your branch <span class="hljs-keyword">is</span> up-<span class="hljs-keyword">to</span>-<span class="hljs-built_in">date</span> <span class="hljs-keyword">with</span> <span class="hljs-comment">'origin/master'.</span>
+</code></pre>
+
+
+
+<h2 id="git-merge-newbranch">git merge new_branch</h2>
+
+<p>把new_branch分支的工作成果合并到当前分支上</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs livecodeserver">$ git <span class="hljs-built_in">merge</span> new_branch
+Updating aa19bec.<span class="hljs-number">.3</span>a34441
+Fast-forward
+ newbranch_file | <span class="hljs-number">1</span> +
+ <span class="hljs-number">1</span> <span class="hljs-built_in">file</span> changed, <span class="hljs-number">1</span> insertion(+)
+ <span class="hljs-built_in">create</span> mode <span class="hljs-number">100644</span> newbranch_file
+</code></pre>
+
+
+
+<h2 id="git-branch-d-newbranch">git branch -d new_branch</h2>
+
+<p>删除new_branch分支</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs bash">$ git branch <span class="hljs-operator">-d</span> new_branch
+Deleted branch new_branch (was <span class="hljs-number">3</span>a34441).
+//<span class="hljs-number">3</span>a34441对应该次删除操作的commit <span class="hljs-built_in">hash</span>码；
+</code></pre>
+
+
+
+<h1 id="第五章-工作区暂存区">第五章 工作区、暂存区</h1>
+
+
+
+<h2 id="工作区working-directory">工作区（Working Directory）</h2>
+
+<p>就是电脑中项目存放的目录；[ Hello_world ]的工作区，如下图： <br>
+</p><center> <br>
+<img src="http://img.blog.csdn.net/20160521210627057" width="240" height="240" alt="不"> <br>
+</center><p></p>
+
+
+
+<h2 id="版本库repository">版本库（Repository）</h2>
+
+<p>工作区有一个隐藏目录[<strong>.git</strong>]，这个就是Git的版本库。 <br>
+</p><center> <br>
+<img src="http://img.blog.csdn.net/20160521210840156" width="360" height="200" alt="不"> <br>
+</center><p></p>
+
+<p></p><center> <br>
+<img src="http://img.blog.csdn.net/20160521211010656" width="330" height="330" alt="不"></center><p></p>
+
+<blockquote>
+  <p>图片源： <a href="http://documentup.com/skwp/git-workflows-book">http://documentup.com/skwp/git-workflows-book</a> <br>
+  </p>
+</blockquote>
+
+
+
+<h2 id="暂存区过程">暂存区过程</h2>
+
+<ol>
+<li><p><strong>git add ####</strong> <br>
+将文件从工作区添加到暂存区</p></li>
+<li><p><strong>git commit</strong> <br>
+提交更改，将暂存区的内容同步到当前分支 [HEAD]</p>
+
+<ul><li>相关命令</li></ul></li>
+<li><p><strong>git reset –mixed</strong> <br>
+此为默认方式，不带任何参数的git reset，即时这种方式，它回退到某个版本，只保留源码，回退commit和index信息</p></li>
+<li><p><strong>git reset –soft</strong> <br>
+回退到某个版本，只回退了commit的信息，不会恢复到index file一级。如果还要提交，直接commit即可</p></li>
+<li><p><strong>git reset –hard</strong> <br>
+彻底回退到某个版本，本地的源码也会变为上一个版本的内容，commit、index、工作区都被重置，此命令慎用！</p></li>
+<li><p><strong>git checkout – readme.txt</strong> <br>
+把readme.txt文件在工作区的修改全部撤销，撤销修改就回到添加到暂存区后的状态。 <br>
+就是让这个文件回到最近一次git commit或git add时的状态。</p></li>
+</ol>
+
+
+
+<pre class="prettyprint"><code class=" hljs brainfuck">  <span class="hljs-comment">注意：</span>
+  <span class="hljs-comment">git</span> <span class="hljs-comment">checkout</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span> <span class="hljs-comment">file命令中的</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span> <span class="hljs-comment">很重要，没有</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span> <span class="hljs-comment">，就变成了“切换到另一个分支”的命令</span></code></pre>
+
+<p>该部分内容参考：<a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">廖雪峰论坛相关内容</a></p>
+
+
+
+<h1 id="第六章-pull-request">第六章 pull request</h1>
+
+<p>详细讲解请参考：<a href="http://blog.jobbole.com/76854/">Pull Request工作流</a></p>
+
+<p>此处只讲解简单的pull request操作。</p>
+
+
+
+<h2 id="fork">fork</h2>
+
+<p>协同开发第一步，在github上看到喜欢的repository，点击<img src="http://img.blog.csdn.net/20160522112501166" alt="这里写图片描述" title="">，就会把该项目添加到自己的 <strong>Your repositories</strong>，然后就可以随心所欲的clone、push，还可以邀请小伙伴一起修改。</p>
+
+
+
+<h2 id="更新">更新</h2>
+
+<p>最常见的问题就是 <strong>fork</strong> 以后，源项目又有大量更新，此时就需要将源项目的更新拉到本地。</p>
+
+<p>这种从一个账户的 <strong>repository</strong> 到另一个 <strong>repository</strong> 的操作，都要使用 <strong>pull request</strong> 。</p>
+
+<p>点击 <strong>New pull request</strong>，出现以下界面：</p>
+
+<p><img src="http://img.blog.csdn.net/20160522113413693" alt="这里写图片描述" title=""></p>
+
+<p>设置 <strong>base fork: </strong> 为自己的项目， <strong>head fork:</strong> 为含有更新的repository（通常为源项目）。</p>
+
+<p>点击 <strong>Create pull request</strong> （绿色按钮）：</p>
+
+<p><img src="http://img.blog.csdn.net/20160522113849719" alt="这里写图片描述" title=""></p>
+
+<p>填写 title ：“合并源作者更新”；内容：“RT.”（内容随意）。</p>
+
+<p>点击 <strong>Create pull request</strong> （绿色按钮）：</p>
+
+<p><img src="http://img.blog.csdn.net/20160522114927759" alt="这里写图片描述" title=""> <br>
+【<strong>→_→</strong>打码水平一流~】</p>
+
+<p>点击 <strong>Merge pull request</strong> ：</p>
+
+<p><img src="http://img.blog.csdn.net/20160522115317178" alt="这里写图片描述" title=""></p>
+
+<p>点击 <strong>Confirm merge</strong> ，完成更新。</p>
+
+
+
+<h2 id="contribute">contribute</h2>
+
+<p>实在不知道怎么起标题了。。。。</p>
+
+<p>就是在自己的 repository 中修改代码以后，测试完成，满意后，将自己的代码推送给源 repository。 <br>
+如果对方接受你的代码，则你就成了该项目的contributor。</p>
+
+<p>嗯。。。。。</p>
+
+<p>其实这个操作和上一个基本一致，只需在以下选择是反过来就可以：</p>
+
+<p><img src="http://img.blog.csdn.net/20160522113413693" alt="这里写图片描述" title=""></p>
+
+<p>打码太痛苦，沿用上面的图片，将这里的 <strong>head fork:</strong> 设为自己的 repository。</p>
+
+<p>之后的操作就一样了。</p>
+
+<p>成为 <strong>contributor</strong> 以后，对应的 <strong>repository</strong> 会出现在主页：</p>
+
+<p><img src="http://img.blog.csdn.net/20160522151606480" alt="这里写图片描述" title=""></p>
+
+
+
+<h1 id="the-end">The End</h1>
+
+<p>推荐一些经典的git教程：</p>
+
+<ol>
+<li><a href="https://training.github.com/">GitHub Training</a></li>
+<li><a href="http://backlogtool.com/git-guide/cn/">猴子都能看懂的GIT入门</a></li>
+<li><a href="https://git-scm.com/book/zh/v1">Pro Git</a></li>
+<li><a href="https://www.atlassian.com/git/tutorials/comparing-workflows">Tutorials</a></li>
+</ol>
+
+<p></p><center> <br>
+<img src="https://octodex.github.com/images/motherhubbertocat.png" width="120" height="120" alt="不"> <br>
+<img src="https://octodex.github.com/images/minertocat.png" width="120" height="120" alt="不"> <br>
+<img src="https://octodex.github.com/images/mountietocat.png" width="120" height="120" alt="不"> <br>
+</center><p></p>
+
+<p><div class="toc">
+<ul>
+<li><a href="#第一章-git历史">第一章 Git历史</a><ul>
+<li><a href="#tips">Tips~</a></li>
+</ul>
+</li>
+<li><a href="#第二章-横向对比">第二章 横向对比</a><ul>
+<li><a href="#svnsubversion">SVN(Subversion)</a><ul>
+<li><a href="#常见的svn工作方式是">常见的SVN工作方式是：</a></li>
+<li><a href="#缺点">缺点：</a></li>
+</ul>
+</li>
+<li><a href="#git">Git</a><ul>
+<li><a href="#常见的git工作方式">常见的Git工作方式：</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#第三章-简单操作">第三章 简单操作</a><ul>
+<li><a href="#git-init">git init</a></li>
+<li><a href="#git-clone">git clone</a></li>
+<li><a href="#git-pull">git pull</a></li>
+<li><a href="#git-status">git status</a></li>
+<li><a href="#git-add">git add</a></li>
+<li><a href="#git-commit">git commit</a></li>
+<li><a href="#git-push">git push</a></li>
+<li><a href="#git-log">git log</a></li>
+<li><a href="#git-reset">git reset</a></li>
+</ul>
+</li>
+<li><a href="#第四章-分支操作">第四章 分支操作</a><ul>
+<li><a href="#git-checkout-b-newbranch">git checkout -b new_branch</a></li>
+<li><a href="#git-branch">git branch</a></li>
+<li><a href="#git-checkout-name">git checkout name</a></li>
+<li><a href="#git-merge-newbranch">git merge new_branch</a></li>
+<li><a href="#git-branch-d-newbranch">git branch -d new_branch</a></li>
+</ul>
+</li>
+<li><a href="#第五章-工作区暂存区">第五章 工作区、暂存区</a><ul>
+<li><a href="#工作区working-directory">工作区（Working Directory）</a></li>
+<li><a href="#版本库repository">版本库（Repository）</a></li>
+<li><a href="#暂存区过程">暂存区过程</a></li>
+</ul>
+</li>
+<li><a href="#第六章-pull-request">第六章 pull request</a><ul>
+<li><a href="#fork">fork</a></li>
+<li><a href="#更新">更新</a></li>
+<li><a href="#contribute">contribute</a></li>
+</ul>
+</li>
+<li><a href="#the-end">The End</a></li>
+</ul>
+</div>
+</p>
