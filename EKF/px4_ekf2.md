@@ -78,14 +78,33 @@ Range Finder 测量对地高度，使用单状态滤波器估计地形高度；
 3. `EKF2_AID_MASK` 第4 bit置true，则用于偏航角估计；
 
 
+## How do I use the 'ecl' library EKF?
+
+参数 'SYS_MC_EST_GROUP' 置 2，启用 ecl EKF。
+
+## What are the advantages and disadvantages of the ecl EKF over other estimators?
+
+正如其他滤波器一样，其性能需要通过匹配传感器特性的参数来提升。调参是在精度和鲁棒性之间做权衡，尽管我们想要提供满足大部分用户的参数，但仍然有需要调参的地方。
+所以，在精度上无法保证由于之前的 `attitude_estimator_q` + `local_position_estimator`，这完全取决于参数的整定。
+
+### Disadvantages
+
+- ecl EKF 是复杂的算法，需要理解 EKF 及其在导航方面的应用，所以较难定位与问题相关的参数；
+- ecl EKF 占用更多的 RAM FLASH 空间；
+- ecl EKF 占用更多的 logging 空间；
+- ecl EKF 航时较少；
+
+### Advantages
+
+- ecl EKF 能够以数学一致的方式融合不同延时和传输速率的传感器数据，当延时参数准确时，能够提供更精确的动态精度。
+- ecl EKF 能够融合大量不同类型的传感器；
+- ecl EKF 能够检测传感器在统计上的显著不一致问题，用于传感器故障检测；
+- 对于固定翼，不论是否使用空速传感器，ecl EKF 都会估计风速。考虑空速与侧滑假设，在GPS丢失时，提供航位更新；
+- ecl EKF 估计三轴加计零偏，能够为垂尾或其他变体无人机在不同飞行阶段提供较高精度估计；
+- 联合架构（姿态、速度、位置联合估计）意味着姿态估计可以由所有传感器修正。有较大的调参潜在价值；
 
 
-
-
-
-
-
-
+## How do I check the EKF performance?
 
 
 
