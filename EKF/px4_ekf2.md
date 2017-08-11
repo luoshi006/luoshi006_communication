@@ -106,6 +106,173 @@ Range Finder 测量对地高度，使用单状态滤波器估计地形高度；
 
 ## How do I check the EKF performance?
 
+在飞行过程中，EKF 会发布大量 uORB topic，并写入 SD 卡。以下步骤假设这些数据已经以 .ulog 格式记录。
+
+EKF 相关的数据记录在  `ekf2_innovations` 和 `estimator_status` 消息中。
+
+官方在 `Tools/ecl_ekf` 提供了分析数据的脚本。
+
+### output Data
+
+- 姿态 [vehicle_attitude]
+- Local position [vehicle_local_position]
+- 控制反馈回路数据 [control_state]
+- Global(WGS-84) [vehicle_global_position]
+- 风速 [wind_estimate]
+
+### States
+
+24个估计状态 [estimator_status]
+
+- [0 ... 3] Quaternions
+- [4 ... 6] Velocity NED (m/s)
+- [7 ... 9] Position NED (m)
+- [10 ... 12] IMU delta angle bias XYZ (rad)
+- [13 ... 15] IMU delta velocity bias XYZ (m/s)
+- [16 ... 18] Earth magnetic field NED (gauss)
+- [19 ... 21] Body magnetic field XYZ (gauss)
+- [22 ... 23] Wind velocity NE (m/s)
+- [24 ... 32] Not Used
+
+### State Variances
+
+24维方差阵 [estimator_status]
+
+- [0 ... 3] Quaternions
+- [4 ... 6] Velocity NED (m/s)^2
+- [7 ... 9] Position NED (m^2)
+- [10 ... 12] IMU delta angle bias XYZ (rad^2)
+- [13 ... 15] IMU delta velocity bias XYZ (m/s)^2
+- [16 ... 18] Earth magnetic field NED (gauss^2)
+- [19 ... 21] Body magnetic field XYZ (gauss^2)
+- [22 ... 23] Wind velocity NE (m/s)^2
+- [24 ... 28] Not Used
+
+### Observation Innovations
+
+- Magnetometer XYZ (gauss) :            mag_innov[3]      in ekf2_innovations.
+- Yaw angle (rad) :                     heading_innov     in ekf2_innovations.
+- Velocity and position innovations :   vel_pos_innov[6]  in ekf2_innovations. 
+    - [0 ... 2] Velocity NED (m/s)
+    - [3 ... 5] Position NED (m)
+- True Airspeed (m/s) :                 airspeed_innov    in ekf2_innovations.
+- Synthetic sideslip (rad) :            beta_innov        in ekf2_innovations.
+- Optical flow XY (rad/sec) :           flow_innov        in ekf2_innovations.
+- Height above ground (m) :             hagl_innov        in ekf2_innovations.
+
+### Observation Innovation Variances
+
+变量同上，一一对应，单位平方。
+
+### Output Complementary Filter
+
+用于更新 fusion time horizon 到当前时刻的状态。计算 fusion time horizon 时刻的姿态、速度、位置的误差，output_tracking_error[3] in ekf2_innovations.
+
+- [0] 姿态误差大小(rad)
+- [1] 速度误差大小(m/s)
+- [2] 位置误差大小(m)
+
+相关参数： EKF2_TAU_VEL / EKF2_TAU_POS；
+减小参数会降低稳态误差，同时增加观测噪声。
+
+### EKF Errors
+
+在恶劣条件下的状态和协方差更新中，EKF 包含错误检测，filter_fault_flags  in estimator_status.
+
+### Observation Errors
+
+有两种观测错误：
+- 数据丢失。
+- 状态预测和传感器量测的新息过大。
+
+这两种错误都会引起拒绝观测数据，在一定时间之后，EKF 将使用传感器观测重置状态量。所有的观测新息都会计算统计置信度。相关参数：`EKF2_*_GATE`。
+
+- mag_test_ratio :  magnetometer innovation 
+- vel_test_ratio :  largest velocity innovation
+- pos_test_ratio :  largest horizontal position innovation 
+- hgt_test_ratio :  the vertical position
+- tas_test_ratio :  true airspeed 
+- hagl_test_ratio : height above ground innovation 
+
+msg: estimator_status -> innovation_check_flags。
+
+### GPS Quality Checks
+
+在使用 GPS 之前，EKF 对 GPS 的数据质量做了大量检测。相关参数： `EKF2_GPS_CHECK` `EKF2_REQ_*`。数据有效标志位将记录于 'estimator_status.gps_check_fail_flags'。所有检测通过时，该标志位为 0 。
+
+### EKF Numerical Errors
+
+为了减少计算负荷，EKF中所有计算量都采用 float ，且求导采用一阶近似，所以，在重新整定参数时，协方差矩阵有可能会变差，导致状态估计值奇异或发散。
+
+为防止这种情况，每一步协方差矩阵和状体更新都包含误差检测校正：
+- 如果新息方差小于观测方差（方差负定），或协方差矩阵更新时出现负值：
+  - 跳过状态与协方差矩阵更新；
+  - 协方差矩阵中对应值重置；
+  - 错误信息记录在 estimator_status -->> filter_fault_flags；
+- 状态方差（主对角线元素）强制非负；
+- 状态方差设置上限；
+- 强制协方差矩阵对称性；
+
+重新整定滤波器参数，尤其是降低噪声时，需要检查 estimator_status -->> filter_fault_flags ，确保其一直为零。
+
+
+## What should I do if the height estimate is diverging?
+
+通常，引起 EKF 高度偏差的原因是 IMU 量测受震动影响后的滤波和混叠。以下变量对偏差体现较为明显：
+
+- `ekf2_innovations.vel_pos_innov[3]` 和 `ekf2_innovations.vel_pos_innov[5]` 都有相同的符号；
+- `estimator_status.hgt_test_ratio` 大于 1.0；
+
+首先，推荐为自驾仪设计减振系统，减振系统通常有6个自由度，对应6个谐振频率。通常要求这6个减振频率高于 25 Hz，小于电机转动频率。
+
+然后，通过以下参数，可以有效的抵消振动引起的偏差：
+- 对主高度传感器的新息阈值翻倍。气压计：EK2_EKF2_BARO_GATE；
+- 初始化 EKF2_ACC_NOISE 为 0.5。如果仍然有偏差，以0.1为步长继续增加，不要超过 1.0；
+
+这些调整会使 EKF 对 GPS 垂直速度和气压高度的噪声更敏感；
+
+
+## What should I do if the position estimate is diverging?
+
+位置估计的偏差通常有以下原因：
+
+- 大振动
+  - 减振系统；
+  - 适当增加 EKF2_ACC_NOISE  EKF2_GYR_NOISE 
+- 陀螺仪零偏
+  - 重新校准陀螺。检查陀螺温漂；
+- 航向对齐误差
+  - 磁力计校准；
+  - 在 QGC 中查看，航向真实偏差在 15 deg 以内；
+- GPS 精度较低
+  - 检查接口；
+  - 改善遮挡和屏蔽；
+  - 查看飞行位置的遮挡和反射（高楼）；
+- GPS 丢失
+
+定位故障原因就需要分析 EKF log 数据：
+
+- plot( estimator_status.vel_test_ratio ) 速度新息；
+- plot( estimator_status.pos_test_ratio ) 水平位置新息；
+- plot( estimator_status.hgt_test_ratio ) 高度新息；
+- plot( estimator_status.mag_test_ratio ) 磁新息；
+- plot( vehicle_gps_position.s_variance_m_s ) GPS 速度精度；
+- plot( estimator_status.states[10],[11],[12] )  IMU 姿态估计；
+- EKF 计算的高频振动：
+  - plot( estimator_status.vibe[0] ) 圆锥振动；
+  - plot( estimator_status.vibe[1] ) 高频角度振动；
+  - plot( estimator_status.vibe[2] ) 高频速度振动；
+  
+  以上 ratio 参数都应该在 0.5 以下，偶尔超出。
+
+  振动测量因与 IMU 采样频率接近，所以能反映的信息有限。只能通过惯导精度和新息来反映振动。
+
+
+
+
+
+
+
 
 
 
