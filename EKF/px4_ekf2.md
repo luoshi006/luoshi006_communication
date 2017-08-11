@@ -267,11 +267,25 @@ msg: estimator_status -> innovation_check_flags。
 
   振动测量因与 IMU 采样频率接近，所以能反映的信息有限。只能通过惯导精度和新息来反映振动。
 
+### Determination of Excessive Vibration
 
+强振动通常会影响水平竖直方向的高度和速度新息。对磁力计影响不大。
 
+### Determination of Excessive Gyro Bias
 
+大陀螺零偏通常会超过 5E-4 (~3 deg/s) 。如果是yaw轴，还会导致 mag 检测值偏大。高度方向通常不会受影响。如果飞行器在起飞之前有时间收敛，则可以放宽到 5 deg/s.  commander -> pre-flight 防止在位置有偏差时解锁。
 
+### Determination of Poor Yaw Accuracy
 
+yaw 轴对齐误差会在开始移动时，因 GPS 和 INAV 计算的速度方向不一致，导致 速度检测值异常增大。磁力计新息影响不大，高度方向不受影响。
+
+### Determination of Poor GPS Accuracy
+
+GPS 精度差通常伴随着接收机的速度报错，新息增加。由多路径、遮挡、干扰等引起的短时错误。
+
+### Determination of GPS Data Loss
+
+GPS 信号丢失，速度和位置新息测试值将会变平 “flat-lining”，可以检测 GPS 的其他状态数据确定。
 
 
 
