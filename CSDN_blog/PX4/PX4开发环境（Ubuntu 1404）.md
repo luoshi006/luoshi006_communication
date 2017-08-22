@@ -19,9 +19,9 @@
 虚拟机文件较大，采用分卷压缩，共三部分：
 
 <center>http://pan.baidu.com/s/1geGyWV5</center>
-
+<br>
 <center>http://pan.baidu.com/s/1mhCQUNY
-
+<br>
 <center>http://pan.baidu.com/s/1i5wst6l</center>
 
 虚拟机：VMware Workstation 12 pro
