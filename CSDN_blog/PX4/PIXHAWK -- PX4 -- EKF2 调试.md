@@ -5,6 +5,8 @@
 
 > 参考：https://dev.px4.io/en/log/ekf2_log_replay.html
 
+# 官方已对该部分功能代码重构，以下内容失效！请前往 https://dev.px4.io/en/debug/system_wide_replay.html#ekf2-replay 查阅。
+
 # sdlog2 日志回放功能
 
 ## 参数调整
