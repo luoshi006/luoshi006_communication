@@ -98,7 +98,7 @@ sudo add-apt-repository --remove ppa:team-gcc-arm-embedded/ppa
 
 pushd .
 cd ~
-wget https://launchpad.net/gcc-arm-embedded/4.8/4.8-2014-q3-update/+download/gcc-arm-none-eabi-4_8-2014q3-20140805-linux.tar.bz2
+#wget https://launchpad.net/gcc-arm-embedded/4.8/4.8-2014-q3-update/+download/gcc-arm-none-eabi-4_8-2014q3-20140805-linux.tar.bz2
 tar -jxf gcc-arm-none-eabi-4_8-2014q3-20140805-linux.tar.bz2
 exportline="export PATH=$HOME/gcc-arm-none-eabi-4_8-2014q3/bin:\$PATH"
 if grep -Fxq "$exportline" ~/.bash_profile; then echo nothing to do ; else echo $exportline >> ~/.profile; fi
