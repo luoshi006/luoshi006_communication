@@ -8,9 +8,8 @@
 PX4 log 文件中变量名称。
 
 下表中变量按字母排序，与原顺序略有不同。
-<br>
-<hr color="11FF44">
-<br>
+
+
 |abs.|全称|结构体变量|
 |:---|:---|:---|
 |AIR1|AIR SPEED SENSORS - DIFF. PRESSURE|BaroPa,BaroAlt,BaroTmp,DiffPres,DiffPresF|
