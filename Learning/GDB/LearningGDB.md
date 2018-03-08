@@ -49,3 +49,8 @@ gdb helloworld.exe
 
 >Note:
 **gdb 加载可执行文件后，默认不会执行，键入 `r` 后，开始运行。**
+
+----
+
+100个gdb小技巧：
+https://github.com/hellogcc/100-gdb-tips/blob/master/src/index.md
